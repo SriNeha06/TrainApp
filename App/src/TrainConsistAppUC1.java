@@ -1,54 +1,26 @@
-class CargoSafetyException extends RuntimeException {
-    public CargoSafetyException(String message) {
-        super(message);
-    }
-}
-
-class GoodsBogie {
-    String shape;
-    String cargo;
-
-    public GoodsBogie(String shape) {
-        this.shape = shape;
-    }
-
-    public void assignCargo(String cargo) {
-        try {
-            if (shape.equals("Rectangular") && cargo.equals("Petroleum")) {
-                throw new CargoSafetyException("Unsafe: Petroleum cannot be assigned to Rectangular bogie");
-            }
-            this.cargo = cargo;
-            System.out.println("Cargo assigned: " + cargo + " to " + shape + " bogie");
-        } catch (CargoSafetyException e) {
-            System.out.println("Exception: " + e.getMessage());
-        } finally {
-            System.out.println("Cargo assignment process completed for " + shape + " bogie");
-        }
-    }
-
-    public String toString() {
-        return shape + " -> " + cargo;
-    }
-}
-
-public class TrainConsistAppUC15 {
+public class TrainConsistAppUC16 {
     public static void main(String[] args) {
         System.out.println("=== Train Consist Management App ===");
 
-        GoodsBogie b1 = new GoodsBogie("Cylindrical");
-        b1.assignCargo("Petroleum");
+        int[] capacities = {72, 56, 24, 70, 60};
 
-        GoodsBogie b2 = new GoodsBogie("Rectangular");
-        b2.assignCargo("Petroleum");
+        for (int i = 0; i < capacities.length - 1; i++) {
+            for (int j = 0; j < capacities.length - i - 1; j++) {
+                if (capacities[j] > capacities[j + 1]) {
+                    int temp = capacities[j];
+                    capacities[j] = capacities[j + 1];
+                    capacities[j + 1] = temp;
+                }
+            }
+        }
 
-        GoodsBogie b3 = new GoodsBogie("Rectangular");
-        b3.assignCargo("Coal");
+        System.out.println("Sorted Passenger Bogie Capacities:");
 
-        System.out.println("\nFinal State:");
-        System.out.println(b1);
-        System.out.println(b2);
-        System.out.println(b3);
+        for (int c : capacities) {
+            System.out.print(c + " ");
+        }
 
+        System.out.println();
         System.out.println("Program continues safely...");
     }
 }
