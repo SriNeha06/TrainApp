@@ -1,45 +1,36 @@
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
-public class TrainConsistAppUC19 {
+public class TrainConsistAppUC20 {
     public static void main(String[] args) {
         System.out.println("=== Train Consist Management App ===");
 
-        String[] bogieIds = {
-                "BG101",
-                "BG205",
-                "BG309",
-                "BG412",
-                "BG550"
-        };
+        List<String> bogieIds = new ArrayList<>();
 
-        String searchKey = "BG412";
+        String searchKey = "BG101";
 
-        Arrays.sort(bogieIds);
-
-        int low = 0;
-        int high = bogieIds.length - 1;
-
-        boolean found = false;
-
-        while (low <= high) {
-            int mid = (low + high) / 2;
-
-            int result = bogieIds[mid].compareTo(searchKey);
-
-            if (result == 0) {
-                found = true;
-                break;
-            } else if (result < 0) {
-                low = mid + 1;
-            } else {
-                high = mid - 1;
+        try {
+            if (bogieIds.isEmpty()) {
+                throw new IllegalStateException("Cannot perform search: Train consist is empty");
             }
-        }
 
-        if (found) {
-            System.out.println("Bogie ID " + searchKey + " FOUND using Binary Search.");
-        } else {
-            System.out.println("Bogie ID " + searchKey + " NOT FOUND.");
+            boolean found = false;
+
+            for (String id : bogieIds) {
+                if (id.equals(searchKey)) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found) {
+                System.out.println("Bogie ID " + searchKey + " FOUND.");
+            } else {
+                System.out.println("Bogie ID " + searchKey + " NOT FOUND.");
+            }
+
+        } catch (IllegalStateException e) {
+            System.out.println("Exception: " + e.getMessage());
         }
 
         System.out.println("Program continues safely...");
